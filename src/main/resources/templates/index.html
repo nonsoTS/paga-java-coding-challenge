@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmCollector - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c5f2d;
+            border-bottom: 3px solid #2c5f2d;
+            padding-bottom: 10px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #4a7c4e;
+            margin-top: 0;
+        }
+        .seasons-list {
+            list-style: none;
+            padding: 0;
+        }
+        .seasons-list li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #e8f5e9;
+            border-radius: 4px;
+        }
+        .seasons-list a {
+            color: #2c5f2d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .seasons-list a:hover {
+            text-decoration: underline;
+        }
+        .api-info {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .empty-message {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<h1>🌾 FarmCollector System</h1>
+
+<div class="section">
+    <h2>Available Reports by Season</h2>
+    <ul class="seasons-list" th:if="${!seasons.isEmpty()}">
+        <li th:each="season : ${seasons}">
+            <a th:href="@{/reports(season=${season})}" th:text="${season}">Season</a>
+        </li>
+    </ul>
+    <p class="empty-message" th:if="${seasons.isEmpty()}">
+        No data available yet. Please submit planted and harvested data using the API endpoints.
+    </p>
+</div>
+
+<div class="section">
+    <h2>API Endpoints</h2>
+
+    <div class="api-info">
+        <h3>POST /api/planted</h3>
+        <p>Submit planting data</p>
+        <p><strong>Example JSON:</strong></p>
+        <pre><code>{
+  "farmName": "MyFarm",
+  "season": "Spring 2024",
+  "cropType": "Corn",
+  "plantingArea": 10.5,
+  "expectedAmount": 50.0
+}</code></pre>
+    </div>
+
+    <div class="api-info">
+        <h3>POST /api/harvested</h3>
+        <p>Submit harvest data</p>
+        <p><strong>Example JSON:</strong></p>
+        <pre><code>{
+  "farmName": "MyFarm",
+  "season": "Spring 2024",
+  "cropType": "Corn",
+  "actualAmount": 45.5
+}</code></pre>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Testing the API</h2>
+    <p>Use tools like Postman, curl, or your browser's developer tools to test the API.</p>
+    <p><strong>Example curl command:</strong></p>
+    <pre><code>curl -X POST http://localhost:8080/api/planted \
+  -H "Content-Type: application/json" \
+  -d '{"farmName":"MyFarm","season":"Spring 2024","cropType":"Corn","plantingArea":10.5,"expectedAmount":50.0}'</code></pre>
+</div>
+</body>
+</html>
